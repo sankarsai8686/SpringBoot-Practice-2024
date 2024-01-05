@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -47,7 +49,17 @@ public class ProductRestController {
 		        .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Product(0, "NOT FOUND", 0, "PRODUCT NOT FOUND")));
 	}
 	
-	
+	@PostMapping("/product")
+	public Product addProduct(@RequestBody Product product) {
+		
+		int lastProductId = products.get(products.size()-1).getId();
+		System.out.println(lastProductId);
+		int newId = lastProductId+1;
+		
+		Product addProduct = new Product(newId, product.getName(), product.getPrice(), product.getDescription());
+		products.add(addProduct);
+		return addProduct;
+	}
 	
 	
 	
